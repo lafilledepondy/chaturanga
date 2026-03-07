@@ -1,16 +1,20 @@
 #pragma once
 
+#include <vector>
+
+#include "piece.hpp"
+
 class Plateau {
     protected:
         // ----------------------------------------------------------------------------
         // protected attribute
         // ----------------------------------------------------------------------------    
-        Piece *[][] Plateau;
+        std::vector<std::vector<Piece *>>; // <> Piece *[][] Plateau
 
         // ----------------------------------------------------------------------------
         // constructors
         // ----------------------------------------------------------------------------    
-        Piece(int height, int width);
+        Plateau(int height, int width);
 
     public:
 

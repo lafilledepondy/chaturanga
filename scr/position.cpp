@@ -5,40 +5,48 @@
 #include "position.hpp"
 
 Position::Position(int x, int y) {
+    if (x<1 || x>8) 
+        throw std::invalid_argument("Position::Position(x,y) - x outside checkerboard.");
+
+    if (y<1 || y>8) 
+        throw std::invalid_argument("Position::Position(x,y) - y outside checkerboard.");
+
     this->_x = x;
     this->_y = y;
 }
 
 Position::Position(Position p, int dx, int dy) {
+    if ((p._x + dx)<1 || (p._x + dx)>8) 
+        throw std::invalid_argument("Position::Position(p,dx,dy) - x outside checkerboard.");
+  
+    if ((p._y + dy)<1 || (p._y + dy)>8) 
+        throw std::invalid_argument("Position::Position(p,dx,dy) - y outside checkerboard.");
+
     this->_x = p._x + dx;
     this->_y = p._y + dy;
 }
 
 Position::Position(std::string str) {
-    if (str[0] == 'A') this->_x = 1;
-    else if (str[0] == 'B') this->_x = 2;
-    else if (str[0] == 'C') this->_x = 3;
-    else if (str[0] == 'D') this->_x = 4;
-    else if (str[0] == 'E') this->_x = 5;
-    else if (str[0] == 'F') this->_x = 6;
-    else if (str[0] == 'G') this->_x = 7; 
-    else if (str[0] == 'H') this->_x = 8;   
+    if (str.size() != 2) 
+        throw std::invalid_argument("Position::Position(str) - invalid format.");
+    
+    char col = str[0];         
+    char row = str[1];
 
-    this->_y = str[1] - '0';
+    if (col<'A' || col>'H') 
+        throw std::invalid_argument("Position::Position(str) - x outside checkerboard.");
+
+    if (row<'1' || col>'8') 
+        throw std::invalid_argument("Position::Position(str) - y outside checkerboard.");   
+
+    this->_x = col - 'A' + 1;
+    this->_y = row - '0';
 }
 
 std::string Position::toString() const {
     std::ostringstream oss;
     oss << "[";
-    if (this->_x == 1) oss << "A";
-    else if (this->_x == 2) oss << "B";
-    else if (this->_x == 3) oss << "C";
-    else if (this->_x == 4) oss << "D";
-    else if (this->_x == 5) oss << "E";
-    else if (this->_x == 6) oss << "F";
-    else if (this->_x == 7) oss << "G";
-    else if (this->_x == 8) oss << "H";
-
+    oss << char(this->_x + 'A' - 1);
     oss << std::to_string(this->_y);
     oss << "]";
     return oss.str();

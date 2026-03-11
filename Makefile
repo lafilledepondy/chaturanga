@@ -39,8 +39,34 @@ clean:
 # Rebuild everything
 rebuild: clean all
 
+# Google Test configuration
+TEST_SOURCES = $(shell find tests -name '*.cpp')
+TEST_MAIN_OBJ = $(BUILD_DIR)/main_test.o
+OTHER_TEST_SOURCES = $(filter-out tests/main_test.cpp,$(TEST_SOURCES))
+OTHER_TEST_OBJECTS = $(patsubst tests/%.cpp,$(BUILD_DIR)/%_test.o,$(OTHER_TEST_SOURCES))
+TEST_OBJECTS = $(TEST_MAIN_OBJ) $(OTHER_TEST_OBJECTS)
+TEST_TARGET = run_tests
+GTEST_FLAGS = -lgtest -pthread
+# Exclude main.o from test build to avoid multiple definition of main
+TEST_LINK_OBJECTS = $(filter-out $(BUILD_DIR)/main.o,$(OBJECTS))
+
+# Build and run tests
+test: $(TARGET) $(TEST_OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $(TEST_TARGET) $(TEST_LINK_OBJECTS) $(TEST_OBJECTS) $(GTEST_FLAGS)
+	./$(TEST_TARGET)
+
+# Compile main_test.cpp
+$(BUILD_DIR)/main_test.o: tests/main_test.cpp | $(BUILD_DIR)
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
+
+# Compile other test files
+$(BUILD_DIR)/%_test.o: tests/%.cpp | $(BUILD_DIR)
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE_FLAGS) -c $< -o $@
+
 DEPS = $(OBJECTS:.o=.d)
 
 -include $(DEPS)
 
-.PHONY: all run clean rebuild
+.PHONY: all run clean rebuild test

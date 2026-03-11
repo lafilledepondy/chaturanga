@@ -15,14 +15,14 @@ public:
 
 */
  
-class Erreur: public exception {
+class InvalidMoveException: public exception {
 public:
-    Erreur(int numero=0, string const& phrase="", int niveau=0) throw();
+    InvalidMoveException(int numero=0, string const& phrase="", int niveau=0) throw();
  
     virtual const char* what() const noexcept { return m_phrase.c_str(); }
     
     int getNiveau() const noexcept;    
-    virtual ~Erreur() noexcept {}
+    virtual ~InvalidMoveException() noexcept {}
 
  
 private:

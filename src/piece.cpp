@@ -5,6 +5,10 @@ Piece::Piece(bool isBlack, std::string name) {
     this->_name = name;
 }
 
+bool Piece::isBlack() const {
+    return _isBlack;
+}
+
 std::string Piece::toString() const {
     std::ostringstream oss;
     if (this->_isBlack) {

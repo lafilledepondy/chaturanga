@@ -28,7 +28,7 @@ bool Plateau::isInside(const Position &pos) const {
 
 Piece * Plateau::getPiece(const Position &pos) {
     if (!isInside(pos)) {
-        throw Erreur(1, "Outside the grid of board", 3);
+        throw InvalidMoveException(1, "Outside of the board.", 3);
     }
     return plateau_vec[pos.getY() - 1][pos.getX() - 1];    
 }
@@ -41,6 +41,24 @@ void Plateau::addPiece(Piece * pi, const Position &pos){
     // TODO
 }
 
-void Plateau::movePiece(const Position &start_pos, const Position &end_pos) {
-    // TODO
+void Plateau::movePiece(const Position &start_pos, const Position &end_pos, bool turnBlack) {
+    Piece *piece_start = getPiece(start_pos); 
+    Piece *piece_end = getPiece(end_pos); 
+
+    if (piece_start == nullptr) {
+        throw InvalidMoveException(2, "`start_pos` is empty.", 3);
+    }
+    if (piece_start->isBlack() != turnBlack) {
+        throw InvalidMoveException(3, "`start_pos` is another color.", 3);
+    }
+    if (piece_end != nullptr && piece_start->isBlack() == piece_end->isBlack()) {
+        throw InvalidMoveException(4, "`end_pos` has my color.", 3);
+    }
+    bool isCapture = (piece_end != nullptr);   
+    if (!piece_start->isValidMove(start_pos, end_pos, isCapture, this)) {
+        throw InvalidMoveException(5, "invalid move by the piece.", 2);
+    }
+
+    plateau_vec[end_pos.getY() - 1][end_pos.getX() - 1] = piece_start;
+    plateau_vec[start_pos.getY() - 1][start_pos.getX() - 1] = nullptr;
 }

@@ -5,7 +5,7 @@ Piece::Piece(bool isBlack, std::string name) {
     this->_name = name;
 }
 
-bool Piece::isBlack() const {
+bool Piece::getIsBlack() const {
     return _isBlack;
 }
 

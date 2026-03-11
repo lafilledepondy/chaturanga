@@ -54,10 +54,10 @@ void Plateau::play(const Position &start_pos, const Position &end_pos, bool turn
     if (piece_start == nullptr) {
         throw InvalidMoveException(2, "`start_pos` is empty.", 3);
     }
-    if (piece_start->isBlack() != turnBlack) {
+    if (piece_start->getIsBlack() != turnBlack) {
         throw InvalidMoveException(3, "`start_pos` is another color.", 3);
     }
-    if (piece_end != nullptr && piece_start->isBlack() == piece_end->isBlack()) {
+    if (piece_end != nullptr && piece_start->getIsBlack() == piece_end->getIsBlack()) {
         throw InvalidMoveException(4, "`end_pos` has my color.", 3);
     }
     bool isCapture = (piece_end != nullptr);   

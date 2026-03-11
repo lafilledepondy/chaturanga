@@ -20,6 +20,14 @@ Position::Position(std::string str) {
     this->_y = str[1] - '0';
 }
 
+int Position::getX() {
+    return this->_x;
+}
+
+int Position::getY() {
+    return this->_y;
+}
+
 std::string Position::toString() const {
     std::ostringstream oss;
     oss << "[";

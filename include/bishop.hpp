@@ -1,30 +1,21 @@
 // ==============================================================================
-// CHECKERBOARD : 
+// BISHOP : 
 // ==============================================================================
 
 #pragma once
 
-#include <iostream>
-#include <string>
+#include "piece.hpp"
 
-#include "plateau.hpp"
-#include "pawn.hpp"
-#include "rook.hpp"
-#include "horse.hpp"
-#include "queen.hpp"
-#include "bishop.hpp"
-#include "king.hpp"
-
-class Checkerboard: public Plateau {
+class Bishop: public Piece {
     public:
         // ----------------------------------------------------------------------------
         // constructors
         // ----------------------------------------------------------------------------    
-        Checkerboard();
+        Bishop(bool isBlack);
 
         // ----------------------------------------------------------------------------
         // methods
-        // ----------------------------------------------------------------------------         
-        void initialConditions();
-        std::string toString() const;
+        // ----------------------------------------------------------------------------        
+        bool isValidMove(const Position &start_pos, const Position &end_pos, 
+            bool isCapture, Plateau* board) const;
 };

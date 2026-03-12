@@ -6,6 +6,6 @@ InvalidMoveException::InvalidMoveException(int numero, string const& phrase, int
     this->m_niveau = niveau;
 }
 
-int InvalidMoveException::getNiveau() const noexcept{
+int InvalidMoveException::getNiveau() const noexcept {
     return this->m_niveau;
 }
